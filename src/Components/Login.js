@@ -4,6 +4,10 @@ import LoginContext from './Context/Logincontext';
 function Login() {
   const { email, password, handleChange, buttonDisabled } = useContext(LoginContext);
 
+  function saveEmail() {
+    localStorage.setItem('user', JSON.stringify({ email }));
+  }
+
   return (
     <div>
       <label htmlFor="">
@@ -21,9 +25,11 @@ function Login() {
           type="password"
           value={ password }
         />
+        <br />
         <button
           disabled={ buttonDisabled }
           data-testid="login-submit-btn"
+          onClick={ saveEmail }
         >
           Enter
         </button>
