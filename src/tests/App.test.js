@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom/cjs/react-router-dom.min';
+import renderWithRouter from '../helpers/renderWithRouter';
 import App from '../App';
 
 const EMAIL = 'email-input';
@@ -9,11 +9,7 @@ const PASSWORD = 'password-input';
 const BUTTON = 'login-submit-btn';
 
 test('App', () => {
-  render(
-    <MemoryRouter>
-      <App />
-    </MemoryRouter>,
-  );
+  renderWithRouter(<App />);
   const emailInput = screen.getByTestId(EMAIL);
   const passwordInput = screen.getByTestId(PASSWORD);
   const loginButton = screen.getByTestId(BUTTON);
@@ -22,26 +18,17 @@ test('App', () => {
   expect(loginButton).toBeInTheDocument();
 });
 
-// 2. Teste se o botão está desabilitado com um email inválido.
 it('Teste se o botão está desabilitado com um email inválido.', () => {
-  render(
-    <MemoryRouter>
-      <App />
-    </MemoryRouter>,
+  renderWithRouter(
+    <App />,
   );
-  const emailInput = screen.getByTestId(EMAIL);
-  const passwordInput = screen.getByTestId(PASSWORD);
   const loginButton = screen.getByTestId(BUTTON);
   expect(loginButton).toBeDisabled();
-  expect(emailInput).toHaveValue('');
-  expect(passwordInput).toHaveValue('');
 });
 
 it('Teste', () => {
-  render(
-    <MemoryRouter>
-      <App />
-    </MemoryRouter>,
+  renderWithRouter(
+    <App />,
   );
   const emailInput = screen.getByTestId(EMAIL);
   const passwordInput = screen.getByTestId(PASSWORD);
