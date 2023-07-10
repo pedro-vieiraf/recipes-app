@@ -12,7 +12,7 @@ function App() {
         type="image/svg+xml"
         data={ rockGlass }
       >
-        Glass
+        App de Receitas
       </object>
     </div>
   );
