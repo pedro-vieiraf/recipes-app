@@ -1,11 +1,14 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import LoginContext from './Context/Logincontext';
 
-function Login() {
+function Login(props) {
   const { email, password, handleChange, buttonDisabled } = useContext(LoginContext);
 
   function saveEmail() {
+    const { history } = props;
     localStorage.setItem('user', JSON.stringify({ email }));
+    history.push('/header');
   }
 
   return (
@@ -37,5 +40,11 @@ function Login() {
     </div>
   );
 }
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
 
 export default Login;
