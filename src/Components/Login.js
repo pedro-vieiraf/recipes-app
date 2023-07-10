@@ -8,7 +8,7 @@ function Login(props) {
   function saveEmail() {
     const { history } = props;
     localStorage.setItem('user', JSON.stringify({ email }));
-    history.push('/header');
+    history.push('/meals');
   }
 
   return (
