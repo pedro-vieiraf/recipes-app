@@ -37,3 +37,17 @@ it('Teste', () => {
   userEvent.type(passwordInput, '1234567');
   expect(loginButton).toBeEnabled();
 });
+it('Testa se ao clicar em "Entrar" redireciona para a pagina correta', () => {
+  renderWithRouter(
+    <App />,
+  );
+  const emailInput = screen.getByTestId(EMAIL);
+  const passwordInput = screen.getByTestId(PASSWORD);
+  const loginButton = screen.getByTestId(BUTTON);
+  userEvent.type(emailInput, 'email@email.com');
+  userEvent.type(passwordInput, '1234567');
+  userEvent.click(loginButton);
+
+  const { pathname } = window.location;
+  expect(pathname).toBe('/meals');
+});
