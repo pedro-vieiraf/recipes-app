@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import LoginContext from './Context/Logincontext';
 
-function Login(props) {
+function Login() {
   const { email, password, handleChange, buttonDisabled } = useContext(LoginContext);
+  const history = useHistory();
 
   function saveEmail() {
-    const { history } = props;
     localStorage.setItem('user', JSON.stringify({ email }));
     history.push('/meals');
   }

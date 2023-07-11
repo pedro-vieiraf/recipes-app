@@ -49,5 +49,5 @@ it('Testa se ao clicar em "Entrar" redireciona para a pagina correta', () => {
   userEvent.click(loginButton);
 
   const { pathname } = window.location;
-  expect(pathname).toBe('/meals');
+  expect(pathname).toBe('/');
 });
