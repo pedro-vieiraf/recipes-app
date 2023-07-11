@@ -2,10 +2,10 @@ import { Link, useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
 
 function Header() {
   const [search, setSearch] = useState(false);
-
   const handleChange = () => {
     if (search) {
       setSearch(false);
@@ -13,7 +13,6 @@ function Header() {
       setSearch(true);
     }
   };
-
   const history = useHistory();
   const { location } = history;
   const { pathname } = location;
@@ -38,7 +37,6 @@ function Header() {
       </h1>
       <Link
         to="/profile"
-        // data-testid="profile-top-btn"
       >
         <img
           data-testid="profile-top-btn"
@@ -53,7 +51,6 @@ function Header() {
           : (
             <button
               onClick={ handleChange }
-              // data-testid="btn-top-search"
             >
               <img
                 data-testid="search-top-btn"
@@ -66,14 +63,10 @@ function Header() {
       {
         search
         && (
-          <input
-            data-testid="search-input"
-            type="text"
-          />
+          <SearchBar />
         )
       }
     </div>
   );
 }
-
 export default Header;
