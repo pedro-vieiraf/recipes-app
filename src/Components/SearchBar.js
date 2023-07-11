@@ -8,6 +8,7 @@ function SearchBar() {
   const [searchRadio, setSearchRadio] = useState('');
   const [searchInput, setSearchInput] = useState('');
 
+  // organiza as requisições
   const requestMealFunctions = {
     ingredient: requestMealByIngredient,
     name: requestMealByName,
