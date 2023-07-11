@@ -19,10 +19,6 @@ function App() {
   const [valuesSearch, setValuesSearch] = useState('');
   const [meals, setMeals] = useState([]);
 
-  console.log(meals);
-  console.log(valuesRadio);
-  console.log(valuesSearch);
-
   const handleClick = useCallback(async () => {
     if (valuesRadio === 'ingredient') {
       const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${valuesSearch}`);
