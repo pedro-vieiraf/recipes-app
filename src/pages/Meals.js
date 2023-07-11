@@ -1,8 +1,12 @@
+// import ComponentsMeals from '../Components/ComponentsMeals';
 import Header from '../Components/Header';
 
 function Meals() {
   return (
-    <Header />
+    <>
+      <Header />
+      {/* <ComponentsMeals /> */}
+    </>
   );
 }
 
