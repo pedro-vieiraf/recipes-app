@@ -9,6 +9,7 @@ import Drinks from './pages/Drinks';
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
+// import Footer from './Components/Footer';
 
 function App() {
   const [email, setEmail] = useState('');
