@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { requestDrinkByFirstLetter, requestDrinkByIngredient,
   requestDrinkByName, requestMealByFirstLetter, requestMealByIngredient,
   requestMealByName } from '../service/RequestAPI';
 
-function SearchBar() {
+export default function SearchBar() {
+  const history = useHistory();
   const [searchRadio, setSearchRadio] = useState('');
   const [searchInput, setSearchInput] = useState('');
+  const [requestMeal, setRequestMeal] = useState([]);
+  const [requestDrink, setRequestDrink] = useState([]);
 
-  // organiza as requisições
   const requestMealFunctions = {
     ingredient: requestMealByIngredient,
     name: requestMealByName,
     firstLetter: requestMealByFirstLetter,
   };
-
   const requestDrinksFunctions = {
     ingredient: requestDrinkByIngredient,
     name: requestDrinkByName,
@@ -22,10 +23,18 @@ function SearchBar() {
   };
 
   const location = useLocation();
-
   const handleRadio = ({ target }) => {
     setSearchRadio(target.value);
   };
+
+  useEffect(() => {
+    if (requestMeal.length === 1) {
+      history.push(`/meals/${requestMeal[0].idMeal}`);
+    }
+    if (requestDrink.length === 1) {
+      history.push(`/drinks/${requestDrink[0].idDrink}`);
+    }
+  }, [requestDrink, requestMeal, history]);
 
   const handleBtnBuscar = () => {
     if (searchRadio === 'firstLetter' && searchInput.length > 1) {
@@ -33,10 +42,16 @@ function SearchBar() {
       return;
     }
     if (location.pathname === '/meals') {
-      requestMealFunctions[searchRadio](searchInput);
+      requestMealFunctions[searchRadio](searchInput)
+        .then((r) => {
+          setRequestMeal(r.meals);
+        });
     }
     if (location.pathname === '/drinks') {
-      requestDrinksFunctions[searchRadio](searchInput);
+      requestDrinksFunctions[searchRadio](searchInput)
+        .then((r) => {
+          setRequestDrink(r.drinks);
+        });
     }
   };
 
@@ -48,6 +63,7 @@ function SearchBar() {
           name="search"
           id="search"
           data-testid="search-input"
+          //   value="teste"
           value={ searchInput }
           onChange={ ({ target }) => { setSearchInput(target.value); } }
         />
@@ -91,10 +107,7 @@ function SearchBar() {
         onClick={ handleBtnBuscar }
       >
         Buscar
-
       </button>
     </div>
   );
 }
-
-export default SearchBar;
