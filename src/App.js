@@ -23,6 +23,9 @@ function App() {
   const [requestMeal, setRequestMeal] = useState([]);
   const [requestDrink, setRequestDrink] = useState([]);
 
+  //   console.log(requestMeal);
+  console.log(requestDrink);
+
   const requestMealFunctions = {
     ingredient: requestMealByIngredient,
     name: requestMealByName,
@@ -48,22 +51,22 @@ function App() {
     }
   }, [requestDrink, requestMeal, history]);
 
-  const handleBtnBuscar = () => {
+  const handleBtnBuscar = async () => {
     if (searchRadio === 'firstLetter' && searchInput.length > 1) {
       global.alert('Your search must have only 1 (one) character');
       return;
     }
     if (location.pathname === '/meals') {
-      requestMealFunctions[searchRadio](searchInput)
-        .then((r) => {
-          setRequestMeal(r.meals);
-        });
+      const response = await requestMealFunctions[searchRadio](searchInput);
+      const result = await response.meals;
+      setRequestMeal(result);
+      return result;
     }
     if (location.pathname === '/drinks') {
-      requestDrinksFunctions[searchRadio](searchInput)
-        .then((r) => {
-          setRequestDrink(r.drinks);
-        });
+      const response = await requestDrinksFunctions[searchRadio](searchInput);
+      const result = await response.drinks;
+      setRequestDrink(result);
+      return result;
     }
   };
 
@@ -97,10 +100,13 @@ function App() {
       setSearchInput,
       setSearchRadio,
       handleRadio,
+      requestMeal,
+      requestDrink,
     }),
     [email, password, handleChange,
       buttonDisabled, buttonStatus, handleBtnBuscar,
-      searchRadio, searchInput, setSearchInput, setSearchRadio],
+      searchRadio, searchInput, setSearchInput, setSearchRadio, handleRadio,
+      requestMeal, requestDrink],
   );
 
   return (
