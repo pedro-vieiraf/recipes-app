@@ -10,27 +10,30 @@ function DrinksResults() {
 
   return (
     <div>
-      { buttonDrink.length === 0
-        ? drinksNumber.map((drink, index) => (
-          <div key={ index }>
-            <h1 data-testid={ `${index}-recipe-card` }>{drink.strDrink}</h1>
-            <h2 data-testid={ `${index}-card-name` }>{ drink.strDrink }</h2>
-            <img
-              src={ drink.strDrinkThumb }
-              alt={ drink.strDrink }
-              data-testid={ `${index}-card-img` }
-            />
-          </div>
-        )) : buttonDrink.map((drink, index) => (
-          <div key={ index }>
-            <h1>{drink.strDrink}</h1>
-            <h2>{ drink.strDrink }</h2>
-            <img
-              src={ drink.strDrinkThumb }
-              alt={ drink.strDrink }
-            />
-          </div>
-        ))}
+      {
+        buttonDrink.length === 0
+          ? drinksNumber.map((drink, index) => (
+            <div key={ index }>
+              <h1 data-testid={ `${index}-recipe-card` }>{drink.strDrink}</h1>
+              <h2 data-testid={ `${index}-card-name` }>{ drink.strDrink }</h2>
+              <img
+                src={ drink.strDrinkThumb }
+                alt={ drink.strDrink }
+                data-testid={ `${index}-card-img` }
+              />
+            </div>
+          )) : buttonDrink.map((drink, index) => (
+            <div key={ index }>
+              <h1 data-testid={ `${index}-recipe-card` }>{drink.strDrink}</h1>
+              <h2 data-testid={ `${index}-card-name` }>{ drink.strDrink }</h2>
+              <img
+                src={ drink.strDrinkThumb }
+                alt={ drink.strDrink }
+                data-testid={ `${index}-card-img` }
+              />
+            </div>
+          ))
+      }
     </div>
   );
 }

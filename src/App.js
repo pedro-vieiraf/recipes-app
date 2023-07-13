@@ -69,8 +69,8 @@ function App() {
       setRequestDrink(result);
       return result;
     }
-  }, [location.pathname, searchRadio, searchInput, requestMealFunctions,
-    requestDrinksFunctions]);
+  }, [location.pathname, searchRadio, searchInput,
+    setRequestMeal, setRequestDrink]);
 
   const buttonStatus = useCallback(() => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -89,22 +89,31 @@ function App() {
     buttonStatus();
   }, [buttonStatus]);
 
+  const handleClickAll = useCallback(async () => {
+    setButtonMeal([]);
+    setButtonDrink([]);
+  }, [setButtonDrink, setButtonMeal]);
+
   const handleCategoryClick = useCallback(async ({ target }) => {
     const { name } = target;
     const mealsCategory = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${name}`;
     const drinksCategory = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${name}`;
 
-    const fetchMeals = await fetch(mealsCategory);
-    const responseMeals = await fetchMeals.json();
-    const responseFilterMeal = responseMeals.meals;
-    const resultsMeals = responseFilterMeal.slice(0, twelve);
-    setButtonMeal(resultsMeals);
+    if (location.pathname === '/meals') {
+      const fetchMeals = await fetch(mealsCategory);
+      const responseMeals = await fetchMeals.json();
+      const responseFilterMeal = responseMeals.meals;
+      const resultsMeals = responseFilterMeal.slice(0, twelve);
+      setButtonMeal(resultsMeals);
+    }
 
-    const fetchDrinks = await fetch(drinksCategory);
-    const responseDrinks = await fetchDrinks.json();
-    const responseFilterDrink = responseDrinks.drinks;
-    const resultsDrinks = responseFilterDrink.slice(0, twelve);
-    setButtonDrink(resultsDrinks);
+    if (location.pathname === '/drinks') {
+      const fetchDrinks = await fetch(drinksCategory);
+      const responseDrinks = await fetchDrinks.json();
+      const responseFilterDrink = responseDrinks.drinks;
+      const resultsDrinks = responseFilterDrink.slice(0, twelve);
+      setButtonDrink(resultsDrinks);
+    }
   }, [setButtonDrink, setButtonMeal]);
 
   console.log(buttonDrink);
@@ -128,12 +137,14 @@ function App() {
       buttonDrink,
       buttonMeal,
       handleCategoryClick,
+      handleClickAll,
     }),
     [email, password, handleChange,
       buttonDisabled, buttonStatus, handleBtnBuscar,
-      searchRadio, searchInput, setSearchInput, setSearchRadio, handleRadio,
+      searchRadio, searchInput, setSearchInput, setSearchRadio,
       requestMeal, requestDrink, buttonDrink,
-      buttonMeal, handleCategoryClick],
+      buttonMeal, handleCategoryClick, handleClickAll,
+    ],
   );
 
   return (

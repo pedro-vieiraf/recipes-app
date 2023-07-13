@@ -3,31 +3,34 @@ import { useLocation } from 'react-router-dom';
 import LoginContext from './Context/Logincontext';
 
 function CategoryButtons() {
-  const { handleCategoryClick } = useContext(LoginContext);
+  const { handleCategoryClick, handleClickAll } = useContext(LoginContext);
   const [categoryMeal, setCategoryMeal] = useState([]);
   const [categoryDrink, setCategoryDrink] = useState([]);
 
   const five = 5;
+  const location = useLocation();
 
   useEffect(() => {
     const requestApi = async () => {
-      const mealCategoryApi = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
-      const fetchMeal = await fetch(mealCategoryApi);
-      const response = await fetchMeal.json();
-      const filteredMeal = response.meals;
-      const resultMeal = filteredMeal.slice(0, five);
-      setCategoryMeal(resultMeal);
-      const drinkCategoryApi = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
-      const fetchDrink = await fetch(drinkCategoryApi);
-      const responses = await fetchDrink.json();
-      const filteredDrink = responses.drinks;
-      const resultDrink = filteredDrink.slice(0, five);
-      setCategoryDrink(resultDrink);
+      if (location.pathname === '/meals') {
+        const mealCategoryApi = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
+        const fetchMeal = await fetch(mealCategoryApi);
+        const response = await fetchMeal.json();
+        const filteredMeal = response.meals;
+        const resultMeal = filteredMeal.slice(0, five);
+        setCategoryMeal(resultMeal);
+      }
+      if (location.pathname === '/drinks') {
+        const drinkCategoryApi = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
+        const fetchDrink = await fetch(drinkCategoryApi);
+        const responses = await fetchDrink.json();
+        const filteredDrink = responses.drinks;
+        const resultDrink = filteredDrink.slice(0, five);
+        setCategoryDrink(resultDrink);
+      }
     };
     requestApi();
   });
-
-  const location = useLocation();
 
   return (
     <div>
@@ -57,6 +60,12 @@ function CategoryButtons() {
           </button>
         ))
       }
+      <button
+        data-testid="All-category-filter"
+        onClick={ handleClickAll }
+      >
+        All
+      </button>
     </div>
   );
 }

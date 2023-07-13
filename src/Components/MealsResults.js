@@ -6,8 +6,6 @@ function MealsResults() {
 
   const num = 12;
 
-  console.log(buttonMeal);
-
   const mealsNumber = requestMeal.slice(0, num);
 
   return (
@@ -26,11 +24,12 @@ function MealsResults() {
             </div>
           )) : buttonMeal.map((meal, index) => (
             <div key={ index }>
-              <h1>{meal.strMeal}</h1>
-              <h2>{ meal.strMeal }</h2>
+              <h1 data-testid={ `${index}-recipe-card` }>{meal.strMeal}</h1>
+              <h2 data-testid={ `${index}-card-name` }>{ meal.strMeal }</h2>
               <img
                 src={ meal.strMealThumb }
                 alt={ meal.strMeal }
+                data-testid={ `${index}-card-img` }
               />
             </div>
           ))
