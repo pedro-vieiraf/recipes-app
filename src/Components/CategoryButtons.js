@@ -30,7 +30,7 @@ function CategoryButtons() {
       }
     };
     requestApi();
-  });
+  }, [location.pathname]);
 
   return (
     <div>
@@ -60,6 +60,7 @@ function CategoryButtons() {
           </button>
         ))
       }
+      <br />
       <button
         data-testid="All-category-filter"
         onClick={ handleClickAll }

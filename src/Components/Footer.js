@@ -13,7 +13,11 @@ function Footer() {
 
   return (
     <footer data-testid="footer" style={ { position: 'fixed', bottom: 0 } }>
-      <Link to="/drinks" data-testid="drinks-bottom-btn" src={ drinkIcon }>
+      <Link
+        to="/drinks"
+        data-testid="drinks-bottom-btn"
+        src={ drinkIcon }
+      >
         <img src={ drinkIcon } alt="Ícone de Bebidas" />
       </Link>
       <Link to="/meals" data-testid="meals-bottom-btn" src={ mealIcon }>
