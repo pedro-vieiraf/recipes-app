@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import MealsResults from './MealsResults';
 import DrinksResults from './DrinksResults';
@@ -10,7 +10,7 @@ function Recipes() {
   const [mealsResult, setMealsResult] = useState([]);
   const [drinksResult, setDrinksResult] = useState([]);
 
-  const { requestMeal, requestDrink } = useContext(LoginContext);
+  const { requestMeal, requestDrink, buttonMeal, buttonDrink } = useContext(LoginContext);
 
   const location = useLocation();
   const num = 12;
@@ -19,14 +19,14 @@ function Recipes() {
 
   const lush = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
 
-  const handleResults = () => {
+  const handleResults = useCallback(() => {
     if (location.pathname === '/meals') {
       setMealsResult(meals);
     }
     if (location.pathname === '/drinks') {
       setDrinksResult(drinks);
     }
-  };
+  }, [drinks, location.pathname, meals]);
 
   useEffect(() => {
     const handleRequest = async () => {
@@ -43,12 +43,12 @@ function Recipes() {
     };
     handleRequest();
     handleResults();
-  }, [requestDrink, handleResults]);
+  }, [handleResults, requestDrink, requestMeal]);
 
   return (
     <div>
       {
-        requestMeal.length === 0
+        requestMeal.length === 0 && buttonMeal.length === 0
           ? mealsResult.map((meal, index) => (
             <div key={ index }>
               <h1 data-testid={ `${index}-recipe-card` }>{meal.strMeal}</h1>
@@ -63,7 +63,7 @@ function Recipes() {
           : <MealsResults />
       }
       {
-        requestDrink.length === 0
+        requestDrink.length === 0 && buttonDrink.length === 0
           ? drinksResult.map((drink, index) => (
             <div key={ index }>
               <h1 data-testid={ `${index}-recipe-card` }>{drink.strDrink}</h1>

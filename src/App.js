@@ -22,9 +22,10 @@ function App() {
   const [searchInput, setSearchInput] = useState('');
   const [requestMeal, setRequestMeal] = useState([]);
   const [requestDrink, setRequestDrink] = useState([]);
+  const [buttonMeal, setButtonMeal] = useState([]);
+  const [buttonDrink, setButtonDrink] = useState([]);
 
-  //   console.log(requestMeal);
-  console.log(requestDrink);
+  const twelve = 12;
 
   const requestMealFunctions = {
     ingredient: requestMealByIngredient,
@@ -51,7 +52,7 @@ function App() {
     }
   }, [requestDrink, requestMeal, history]);
 
-  const handleBtnBuscar = async () => {
+  const handleBtnBuscar = useCallback(async () => {
     if (searchRadio === 'firstLetter' && searchInput.length > 1) {
       global.alert('Your search must have only 1 (one) character');
       return;
@@ -68,7 +69,8 @@ function App() {
       setRequestDrink(result);
       return result;
     }
-  };
+  }, [location.pathname, searchRadio, searchInput, requestMealFunctions,
+    requestDrinksFunctions]);
 
   const buttonStatus = useCallback(() => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -87,6 +89,27 @@ function App() {
     buttonStatus();
   }, [buttonStatus]);
 
+  const handleCategoryClick = useCallback(async ({ target }) => {
+    const { name } = target;
+    const mealsCategory = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${name}`;
+    const drinksCategory = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${name}`;
+
+    const fetchMeals = await fetch(mealsCategory);
+    const responseMeals = await fetchMeals.json();
+    const responseFilterMeal = responseMeals.meals;
+    const resultsMeals = responseFilterMeal.slice(0, twelve);
+    setButtonMeal(resultsMeals);
+
+    const fetchDrinks = await fetch(drinksCategory);
+    const responseDrinks = await fetchDrinks.json();
+    const responseFilterDrink = responseDrinks.drinks;
+    const resultsDrinks = responseFilterDrink.slice(0, twelve);
+    setButtonDrink(resultsDrinks);
+  }, [setButtonDrink, setButtonMeal]);
+
+  console.log(buttonDrink);
+  console.log(buttonMeal);
+
   const context = useMemo(
     () => ({
       email,
@@ -102,11 +125,15 @@ function App() {
       handleRadio,
       requestMeal,
       requestDrink,
+      buttonDrink,
+      buttonMeal,
+      handleCategoryClick,
     }),
     [email, password, handleChange,
       buttonDisabled, buttonStatus, handleBtnBuscar,
       searchRadio, searchInput, setSearchInput, setSearchRadio, handleRadio,
-      requestMeal, requestDrink],
+      requestMeal, requestDrink, buttonDrink,
+      buttonMeal, handleCategoryClick],
   );
 
   return (
