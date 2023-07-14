@@ -23,9 +23,11 @@ function App() {
   const [searchInput, setSearchInput] = useState('');
   const [requestMeal, setRequestMeal] = useState([]);
   const [requestDrink, setRequestDrink] = useState([]);
+  const [buttonMeal, setButtonMeal] = useState([]);
+  const [buttonDrink, setButtonDrink] = useState([]);
+  const [clear, setClear] = useState(false);
 
-  //   console.log(requestMeal);
-  console.log(requestDrink);
+  const twelve = 12;
 
   const requestMealFunctions = {
     ingredient: requestMealByIngredient,
@@ -52,7 +54,7 @@ function App() {
     }
   }, [requestDrink, requestMeal, history]);
 
-  const handleBtnBuscar = async () => {
+  const handleBtnBuscar = useCallback(async () => {
     if (searchRadio === 'firstLetter' && searchInput.length > 1) {
       global.alert('Your search must have only 1 (one) character');
       return;
@@ -69,7 +71,8 @@ function App() {
       setRequestDrink(result);
       return result;
     }
-  };
+  }, [location.pathname, searchRadio, searchInput,
+    setRequestMeal, setRequestDrink]);
 
   const buttonStatus = useCallback(() => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -88,6 +91,39 @@ function App() {
     buttonStatus();
   }, [buttonStatus]);
 
+  const handleClickAll = useCallback(async () => {
+    setButtonMeal([]);
+    setButtonDrink([]);
+  }, [setButtonDrink, setButtonMeal]);
+
+  const handleCategoryClick = useCallback(async ({ target }) => {
+    const { name } = target;
+    const mealsCategory = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${name}`;
+    const drinksCategory = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${name}`;
+
+    if (location.pathname === '/meals') {
+      const fetchMeals = await fetch(mealsCategory);
+      const responseMeals = await fetchMeals.json();
+      const responseFilterMeal = responseMeals.meals;
+      const resultsMeals = responseFilterMeal.slice(0, twelve);
+      setButtonMeal(resultsMeals);
+    }
+
+    if (location.pathname === '/drinks') {
+      const fetchDrinks = await fetch(drinksCategory);
+      const responseDrinks = await fetchDrinks.json();
+      const responseFilterDrink = responseDrinks.drinks;
+      const resultsDrinks = responseFilterDrink.slice(0, twelve);
+      setButtonDrink(resultsDrinks);
+    }
+    if (clear === true) {
+      setButtonDrink([]);
+      setButtonMeal([]);
+    } else {
+      setClear(true);
+    }
+  }, [setButtonDrink, setButtonMeal, location.pathname, clear]);
+
   const context = useMemo(
     () => ({
       email,
@@ -103,11 +139,17 @@ function App() {
       handleRadio,
       requestMeal,
       requestDrink,
+      buttonDrink,
+      buttonMeal,
+      handleCategoryClick,
+      handleClickAll,
     }),
     [email, password, handleChange,
       buttonDisabled, buttonStatus, handleBtnBuscar,
-      searchRadio, searchInput, setSearchInput, setSearchRadio, handleRadio,
-      requestMeal, requestDrink],
+      searchRadio, searchInput, setSearchInput, setSearchRadio,
+      requestMeal, requestDrink, buttonDrink,
+      buttonMeal, handleCategoryClick, handleClickAll,
+    ],
   );
 
   return (
