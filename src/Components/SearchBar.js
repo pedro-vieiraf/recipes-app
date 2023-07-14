@@ -13,7 +13,6 @@ export default function SearchBar() {
           name="search"
           id="search"
           data-testid="search-input"
-          //   value="teste"
           value={ searchInput }
           onChange={ ({ target }) => { setSearchInput(target.value); } }
         />
