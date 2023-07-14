@@ -12,7 +12,7 @@ import FavoriteRecipes from './pages/FavoriteRecipes';
 import { requestDrinkByFirstLetter, requestDrinkByIngredient,
   requestDrinkByName, requestMealByFirstLetter, requestMealByIngredient,
   requestMealByName } from './service/RequestAPI';
-import DetailMeals from './Components/DetailMeals';
+import Details from './Components/Details';
 
 function App() {
   const [email, setEmail] = useState('');
@@ -124,9 +124,6 @@ function App() {
     }
   }, [setButtonDrink, setButtonMeal, location.pathname, clear]);
 
-  console.log(buttonDrink);
-  console.log(buttonMeal);
-
   const context = useMemo(
     () => ({
       email,
@@ -160,8 +157,8 @@ function App() {
       <Route exact path="/" component={ Login } />
       <Route exact path="/meals" component={ Meals } />
       <Route exact path="/drinks" component={ Drinks } />
-      <Route exact path="/meals/:id" component={ DetailMeals } />
-      <Route exact path="/drinks/:id" />
+      <Route exact path="/meals/:id" component={ Details } />
+      <Route exact path="/drinks/:id" component={ Details } />
       <Route exact path="/meals/:id/in-progress" />
       <Route exact path="/drinks/:id/in-progress" />
       <Route exact path="/profile" component={ Profile } />
