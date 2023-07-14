@@ -12,6 +12,7 @@ import FavoriteRecipes from './pages/FavoriteRecipes';
 import { requestDrinkByFirstLetter, requestDrinkByIngredient,
   requestDrinkByName, requestMealByFirstLetter, requestMealByIngredient,
   requestMealByName } from './service/RequestAPI';
+import RecipeDetails from './Components/RecipeDetails';
 
 function App() {
   const [email, setEmail] = useState('');
@@ -114,10 +115,16 @@ function App() {
       <Route exact path="/" component={ Login } />
       <Route exact path="/meals" component={ Meals } />
       <Route exact path="/drinks" component={ Drinks } />
-      <Route exact path="/meals/:id-da-receita" />
-      <Route exact path="/drinks/:id-da-receita" />
-      <Route exact path="/meals/:id-da-receita/in-progress" />
-      <Route exact path="/drinks/:id-da-receita/in-progress" />
+      <Route
+        exact
+        path="/meals/:id"
+        render={ (props) => <RecipeDetails { ...props } /> }
+      />
+      <Route
+        exact
+        path="/drinks/:id"
+        render={ (props) => <RecipeDetails { ...props } /> }
+      />
       <Route exact path="/profile" component={ Profile } />
       <Route exact path="/done-recipes" component={ DoneRecipes } />
       <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
