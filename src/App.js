@@ -63,14 +63,12 @@ function App() {
       const response = await requestMealFunctions[searchRadio](searchInput);
       const result = await response.meals;
       setRequestMeal(result);
-      console.log(result);
       return result;
     }
     if (location.pathname === '/drinks') {
       const response = await requestDrinksFunctions[searchRadio](searchInput);
       const result = await response.drinks;
       setRequestDrink(result);
-      console.log(result);
       return result;
     }
   }, [location.pathname, searchRadio, searchInput,

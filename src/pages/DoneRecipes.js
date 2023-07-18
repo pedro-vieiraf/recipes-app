@@ -36,14 +36,12 @@ function DoneRecipes() {
   const handleMealClick = () => {
     const applyClick = doneRecipes
       .filter((recipe) => Object.values(recipe).includes('meal'));
-    console.log(Object.values(doneRecipes[0]));
     setFilteredRecipes(applyClick);
   };
 
   const handleDrinkClick = () => {
     const applyClick = doneRecipes
       .filter((recipe) => Object.values(recipe).includes('drink'));
-    console.log(Object.values(doneRecipes[0]));
     setFilteredRecipes(applyClick);
   };
 
