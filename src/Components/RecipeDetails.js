@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -9,7 +9,8 @@ import LoginContext from './Context/Logincontext';
 const SIX = 6;
 const copy = require('clipboard-copy');
 
-export default function RecipeDetails(props) {
+export default function RecipeDetails() {
+  const location = useLocation();
   const history = useHistory();
   const { recipe, setRecipe } = useContext(LoginContext);
   const [carousel, setCarousel] = useState([]);
@@ -63,10 +64,9 @@ export default function RecipeDetails(props) {
     }
   };
   useEffect(() => {
-    const { location } = props;
     fetchAPI(location);
     fetchCarousel(location);
-  }, [props, fetchAPI]);
+  }, [location]);
 
   useEffect(() => {
     const favorite = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
@@ -88,7 +88,6 @@ export default function RecipeDetails(props) {
 
   const buttonShare = async () => {
     setMessageCopy(true);
-    const { location } = props;
     const { pathname } = location;
     const url = `http://localhost:3000${pathname}`;
     const messageSaved = await copy(url);
@@ -96,7 +95,6 @@ export default function RecipeDetails(props) {
   };
 
   const bttFavorite = () => {
-    const { location } = props;
     const { pathname } = location;
     const favorite = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
     let newFavorite = [];
