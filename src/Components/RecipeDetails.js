@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory, useLocation } from 'react-router-dom';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import LoginContext from './Context/Logincontext';
 
 const SIX = 6;
 const copy = require('clipboard-copy');
@@ -11,12 +12,12 @@ const copy = require('clipboard-copy');
 export default function RecipeDetails() {
   const location = useLocation();
   const history = useHistory();
-  const [recipe, setRecipe] = useState({});
+  const { recipe, setRecipe } = useContext(LoginContext);
   const [carousel, setCarousel] = useState([]);
   const [favoriteRecipe, setFavoriteRecipe] = useState(false);
   const [messageCopy, setMessageCopy] = useState(false);
 
-  const fetchAPI = async (arg) => {
+  const fetchAPI = useCallback(async (arg) => {
     const b = arg.pathname.split('/');
     const id = b[2];
     let url = '';
@@ -30,7 +31,7 @@ export default function RecipeDetails() {
     } else {
       setRecipe(results.drinks[0]);
     }
-  };
+  }, [setRecipe]);
   function renderIngredients(param1) {
     const asArray = Object.entries(recipe);
     const filtered = asArray.filter(([key, value]) => key.includes(param1)

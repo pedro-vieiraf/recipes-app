@@ -13,6 +13,7 @@ import { requestDrinkByFirstLetter, requestDrinkByIngredient,
   requestDrinkByName, requestMealByFirstLetter, requestMealByIngredient,
   requestMealByName } from './service/RequestAPI';
 import RecipeDetails from './Components/RecipeDetails';
+import RecipeInprogress from './Components/RecipeInprogress';
 
 function App() {
   const [email, setEmail] = useState('');
@@ -26,6 +27,7 @@ function App() {
   const [buttonMeal, setButtonMeal] = useState([]);
   const [buttonDrink, setButtonDrink] = useState([]);
   const [clear, setClear] = useState(false);
+  const [recipe, setRecipe] = useState({});
 
   const twelve = 12;
 
@@ -151,12 +153,14 @@ function App() {
       buttonMeal,
       handleCategoryClick,
       handleClickAll,
+      recipe,
+      setRecipe,
     }),
     [email, password, handleChange,
       buttonDisabled, buttonStatus, handleBtnBuscar,
       searchRadio, searchInput, setSearchInput, setSearchRadio,
       requestMeal, requestDrink, buttonDrink,
-      buttonMeal, handleCategoryClick, handleClickAll,
+      buttonMeal, handleCategoryClick, handleClickAll, recipe, setRecipe,
     ],
   );
 
@@ -174,6 +178,16 @@ function App() {
         exact
         path="/drinks/:id"
         render={ (props) => <RecipeDetails { ...props } /> }
+      />
+      <Route
+        exact
+        path="/meals/:id/in-progress"
+        render={ (props) => <RecipeInprogress { ...props } /> }
+      />
+      <Route
+        exact
+        path="/drinks/:id/in-progress"
+        render={ (props) => <RecipeInprogress { ...props } /> }
       />
       <Route exact path="/profile" component={ Profile } />
       <Route exact path="/done-recipes" component={ DoneRecipes } />
