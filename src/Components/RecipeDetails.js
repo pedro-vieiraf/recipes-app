@@ -30,6 +30,7 @@ export default function RecipeDetails(props) {
       setRecipe(results.drinks[0]);
     }
   };
+  console.log(recipe);
   function renderIngredients(param1) {
     const asArray = Object.entries(recipe);
     const filtered = asArray.filter(([key, value]) => key.includes(param1)
