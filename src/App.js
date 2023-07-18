@@ -13,7 +13,7 @@ import { requestDrinkByFirstLetter, requestDrinkByIngredient,
   requestDrinkByName, requestMealByFirstLetter, requestMealByIngredient,
   requestMealByName } from './service/RequestAPI';
 import RecipeDetails from './Components/RecipeDetails';
-import RecipeInprogress from './Components/RecipeInprogress';
+import RecipeInprogress from './Components/RecipeInProgress';
 
 function App() {
   const [email, setEmail] = useState('');
