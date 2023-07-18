@@ -62,12 +62,20 @@ function App() {
     if (location.pathname === '/meals') {
       const response = await requestMealFunctions[searchRadio](searchInput);
       const result = await response.meals;
+      if (result === null) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+        return;
+      }
       setRequestMeal(result);
       return result;
     }
     if (location.pathname === '/drinks') {
       const response = await requestDrinksFunctions[searchRadio](searchInput);
       const result = await response.drinks;
+      if (result === null) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+        return;
+      }
       setRequestDrink(result);
       return result;
     }
