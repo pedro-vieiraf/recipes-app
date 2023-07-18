@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import LoginContext from './Context/Logincontext';
-import '../style/Login.css';
+// import '../style/Login.css';
 
 function Login() {
   const { email, password, handleChange, buttonDisabled } = useContext(LoginContext);
