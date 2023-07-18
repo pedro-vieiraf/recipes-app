@@ -46,6 +46,7 @@ function DoneRecipes() {
             onClick={ () => redirectToRecipeDetails(recipe.id, recipe.type) }
           >
             <img
+              width={ 350 }
               src={ recipe.image }
               alt={ recipe.name }
               data-testid={ `${index}-horizontal-image` }
