@@ -6,6 +6,7 @@ import shareIcon from '../images/shareIcon.svg';
 function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState([]);
   const [showMessage, setShowMessage] = useState(false);
+  const [filteredRecipes, setFilteredRecipes] = useState([]);
   const history = useHistory();
 
   const redirectToRecipeDetails = (recipeId, recipeType) => {
@@ -16,6 +17,7 @@ function DoneRecipes() {
     const storedDoneRecipes = localStorage.getItem('doneRecipes');
     if (storedDoneRecipes) {
       setDoneRecipes(JSON.parse(storedDoneRecipes));
+      setFilteredRecipes(JSON.parse(storedDoneRecipes));
     }
   }, []);
 
@@ -30,14 +32,48 @@ function DoneRecipes() {
     }, MESSAGE_DISPLAY_TIME);
   }, []);
 
+  console.log(doneRecipes);
+  const handleMealClick = () => {
+    const applyClick = doneRecipes
+      .filter((recipe) => Object.values(recipe).includes('meal'));
+    setFilteredRecipes(applyClick);
+  };
+
+  const handleDrinkClick = () => {
+    const applyClick = doneRecipes
+      .filter((recipe) => Object.values(recipe).includes('drink'));
+    setFilteredRecipes(applyClick);
+  };
+
+  const handleAllClick = () => {
+    setFilteredRecipes(doneRecipes);
+  };
   return (
     <div>
       <Header />
-      <button data-testid="filter-by-all-btn">All</button>
-      <button data-testid="filter-by-meal-btn">Meals</button>
-      <button data-testid="filter-by-drink-btn">Drinks</button>
+      <button
+        data-testid="filter-by-all-btn"
+        onClick={ handleAllClick }
+      >
+        All
 
-      {doneRecipes.map((recipe, index) => (
+      </button>
+      <button
+        data-testid="filter-by-meal-btn"
+        onClick={ handleMealClick }
+      >
+        Meals
+
+      </button>
+      <button
+        data-testid="filter-by-drink-btn"
+        onClick={ handleDrinkClick }
+      >
+        Drinks
+
+      </button>
+
+      {filteredRecipes.map((recipe, index) => (
         <div
           key={ index }
         >
