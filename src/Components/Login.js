@@ -15,7 +15,7 @@ function Login() {
 
   return (
     <div className="login-container">
-      <h1 className="app-title">recipes debugger</h1>
+      <h1 className="app-title">app de receitas</h1>
       {/* <h3 className="app-subtitle">receitas do chefe</h3> */}
       <label htmlFor="">
         <input
