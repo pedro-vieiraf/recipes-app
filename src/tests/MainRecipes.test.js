@@ -8,6 +8,7 @@ import App from '../App';
 const EMAIL = 'email-input';
 const PASSWORD = 'password-input';
 const BUTTON = 'login-submit-btn';
+const recipeCard = '0-recipe-card';
 
 describe('Testa a tela principal de receitas', () => {
   it('Testa se há 12 receitas ao carregar a página', async () => {
@@ -17,60 +18,177 @@ describe('Testa a tela principal de receitas', () => {
     const passwordInput = screen.getByTestId(PASSWORD);
     const loginButton = screen.getByTestId(BUTTON);
 
-    userEvent.type(emailInput, 'email@email.com');
-    userEvent.type(passwordInput, '1234567');
-    userEvent.click(loginButton);
     act(() => {
-      history.push('/meals');
+      userEvent.type(emailInput, 'emai@email.com');
+      userEvent.type(passwordInput, '1234567');
+      userEvent.click(loginButton);
     });
 
     await waitFor(() => {
-      screen.getByText('Corba');
+      screen.getByTestId(recipeCard);
     }, {
-      timeout: 5000,
+      timeout: 4000,
     });
 
     const recipes = screen.getAllByRole('heading', { level: 1 });
+    const { pathname } = history.location;
     expect(recipes).toHaveLength(13);
+    expect(pathname).toBe('/meals');
   });
-  it('Testa se há 12 receitas ao carregar a página', async () => {
+
+  it('Testa se há 12 receitas de bebidas ao carregar a página', async () => {
     const { history } = renderWithRouter(<App />);
 
     const emailInput = screen.getByTestId(EMAIL);
     const passwordInput = screen.getByTestId(PASSWORD);
     const loginButton = screen.getByTestId(BUTTON);
 
-    userEvent.type(emailInput, 'email@email.com');
-    userEvent.type(passwordInput, '1234567');
-    userEvent.click(loginButton);
     act(() => {
-      history.push('/meals');
+      userEvent.type(emailInput, 'email@email.com');
+      userEvent.type(passwordInput, '1234567');
+      userEvent.click(loginButton);
     });
 
     await waitFor(() => {
-      screen.getByText('Corba');
+      screen.getByTestId(recipeCard);
     }, {
-      timeout: 5000,
+      timeout: 4000,
     });
 
-    const btnDrink = screen.getByTestId('drinks-bottom-btn');
+    const btnCategory = screen.getByTestId('drinks-bottom-btn');
 
     act(() => {
-      userEvent.click(btnDrink);
-      history.push('/drinks');
+      userEvent.click(btnCategory);
     });
 
     await waitFor(() => {
-      screen.getByText('GG');
+      screen.getByTestId(recipeCard);
     }, {
-      timeout: 5000,
+      timeout: 4000,
     });
 
-    const recipes = screen.getByRole('heading', { level: 1, name: 'GG' });
-    userEvent.click(recipes);
+    const recipes = screen.getAllByRole('heading', { level: 1 });
+    const { pathname } = history.location;
 
-    const { pathname } = window.location;
+    expect(recipes).toHaveLength(13);
+    expect(pathname).toBe('/drinks');
+  });
 
-    expect(pathname).toBe('/drinks/15997');
+  it('Testa se há os botoes de filtro a carregar a página', async () => {
+    renderWithRouter(<App />);
+
+    const emailInput = screen.getByTestId(EMAIL);
+    const passwordInput = screen.getByTestId(PASSWORD);
+    const loginButton = screen.getByTestId(BUTTON);
+
+    act(() => {
+      userEvent.type(emailInput, 'email@email.com');
+      userEvent.type(passwordInput, '1234567');
+      userEvent.click(loginButton);
+    });
+
+    await waitFor(() => {
+      screen.getByTestId(recipeCard);
+    }, {
+      timeout: 4000,
+    });
+
+    const btnCategory = screen.getByTestId('Breakfast-category-filter');
+
+    act(() => {
+      userEvent.click(btnCategory);
+    });
+
+    await waitFor(() => {
+      screen.getByTestId(recipeCard);
+    }, {
+      timeout: 4000,
+    });
+
+    const recipe = screen.getByTestId(recipeCard);
+
+    expect(recipe).toBeInTheDocument();
+  });
+  it('Testa se há os botoes de filtro ao carregar a página', async () => {
+    renderWithRouter(<App />);
+
+    const emailInput = screen.getByTestId(EMAIL);
+    const passwordInput = screen.getByTestId(PASSWORD);
+    const loginButton = screen.getByTestId(BUTTON);
+
+    act(() => {
+      userEvent.type(emailInput, 'emil@email.com');
+      userEvent.type(passwordInput, '1234567');
+      userEvent.click(loginButton);
+    });
+
+    await waitFor(() => {
+      screen.getByTestId('0-card-name');
+    }, {
+      timeout: 4000,
+    });
+
+    const searchButton = screen.getByTestId('search-top-btn');
+
+    act(() => {
+      userEvent.click(searchButton);
+    });
+
+    await waitFor(() => {
+      screen.getByTestId('search-input');
+    }, {
+      timeout: 4000,
+    });
+
+    const inputSearch = screen.getByTestId('search-input');
+    const radioBtn = screen.getByTestId('ingredient-search-radio');
+    const search = screen.getByTestId('exec-search-btn');
+
+    act(() => {
+      userEvent.type(inputSearch, 'chicken');
+      userEvent.click(radioBtn);
+      userEvent.click(search);
+    });
+
+    await waitFor(() => {
+      screen.getByTestId(recipeCard);
+    }, {
+      timeout: 4000,
+    });
+
+    const recipe = screen.getByTestId(recipeCard);
+    const recipes = screen.getAllByRole('heading', { level: 2 });
+
+    expect(recipe).toBeInTheDocument();
+    expect(recipes).toHaveLength(12);
+  });
+  it('Testa se há os botoes de filtro ao carregar a página', async () => {
+    const { history } = renderWithRouter(<App />);
+
+    const emailInput = screen.getByTestId(EMAIL);
+    const passwordInput = screen.getByTestId(PASSWORD);
+    const loginButton = screen.getByTestId(BUTTON);
+
+    act(() => {
+      userEvent.type(emailInput, 'eail@email.com');
+      userEvent.type(passwordInput, '12224567');
+      userEvent.click(loginButton);
+    });
+
+    await waitFor(() => {
+      screen.getByTestId(recipeCard);
+    }, {
+      timeout: 4000,
+    });
+
+    const btnCategory = screen.getByTestId('0-card-img');
+
+    act(() => {
+      userEvent.click(btnCategory);
+    });
+
+    const { pathname } = history.location;
+
+    expect(pathname).toBe('/meals/52977');
   });
 });

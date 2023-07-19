@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import MealsResults from './MealsResults';
 import DrinksResults from './DrinksResults';
@@ -19,31 +19,27 @@ function Recipes() {
 
   const lush = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
 
-  const handleResults = useCallback(() => {
-    if (location.pathname === '/meals') {
-      setMealsResult(meals);
-    }
-    if (location.pathname === '/drinks') {
-      setDrinksResult(drinks);
-    }
-  }, [drinks, location.pathname, meals]);
-
   useEffect(() => {
     const handleRequest = async () => {
-      const requests = await fetch(food);
-      const responses = await requests.json();
-      const result = responses.meals;
-      const filters = result.slice(0, num);
-      setMeal(filters);
-      const request = await fetch(lush);
-      const response = await request.json();
-      const results = response.drinks;
-      const filter = results.slice(0, num);
-      setDrinks(filter);
+      if (location.pathname === '/meals') {
+        const requests = await fetch(food);
+        const responses = await requests.json();
+        const result = responses.meals;
+        const filters = result.slice(0, num);
+        setMeal(filters);
+        setMealsResult(meals);
+      }
+      if (location.pathname === '/drinks') {
+        const request = await fetch(lush);
+        const response = await request.json();
+        const results = response.drinks;
+        const filter = results.slice(0, num);
+        setDrinks(filter);
+        setDrinksResult(drinks);
+      }
     };
     handleRequest();
-    handleResults();
-  }, [handleResults, requestDrink, requestMeal]);
+  }, [drinks, requestDrink, requestMeal, meals, location.pathname]);
 
   return (
     <div>
