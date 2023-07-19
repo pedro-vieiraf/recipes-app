@@ -32,7 +32,6 @@ function DoneRecipes() {
     }, MESSAGE_DISPLAY_TIME);
   }, []);
 
-  console.log(doneRecipes);
   const handleMealClick = () => {
     const applyClick = doneRecipes
       .filter((recipe) => Object.values(recipe).includes('meal'));
