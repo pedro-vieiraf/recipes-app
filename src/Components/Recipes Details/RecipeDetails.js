@@ -1,16 +1,15 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory, useLocation } from 'react-router-dom';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import shareIcon from '../images/shareIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import LoginContext from './Context/Logincontext';
+import { useHistory } from 'react-router-dom';
+import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
+import LoginContext from '../Context/Logincontext';
+import './RECIPESDETAILS.css';
 
 const SIX = 6;
 const copy = require('clipboard-copy');
 
-export default function RecipeDetails() {
-  const location = useLocation();
+export default function RecipeDetails(props) {
   const history = useHistory();
   const { recipe, setRecipe } = useContext(LoginContext);
   const [carousel, setCarousel] = useState([]);
@@ -32,10 +31,11 @@ export default function RecipeDetails() {
       setRecipe(results.drinks[0]);
     }
   }, [setRecipe]);
+
   function renderIngredients(param1) {
     const asArray = Object.entries(recipe);
     const filtered = asArray.filter(([key, value]) => key.includes(param1)
-    && value !== null && value !== '');
+    && value !== null && value !== ' ');
     const a = filtered.map((el) => el[1]);
     return a;
   }
@@ -64,9 +64,10 @@ export default function RecipeDetails() {
     }
   };
   useEffect(() => {
+    const { location } = props;
     fetchAPI(location);
     fetchCarousel(location);
-  }, [location]);
+  }, [props, fetchAPI]);
 
   useEffect(() => {
     const favorite = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
@@ -88,6 +89,7 @@ export default function RecipeDetails() {
 
   const buttonShare = async () => {
     setMessageCopy(true);
+    const { location } = props;
     const { pathname } = location;
     const url = `http://localhost:3000${pathname}`;
     const messageSaved = await copy(url);
@@ -95,6 +97,7 @@ export default function RecipeDetails() {
   };
 
   const bttFavorite = () => {
+    const { location } = props;
     const { pathname } = location;
     const favorite = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
     let newFavorite = [];
@@ -136,37 +139,54 @@ export default function RecipeDetails() {
   };
 
   return (
-    <div>
+    <div className="recipe-details-container">
+      <h1
+        className="recipe-details-title"
+      >
+        Recipe Details
+      </h1>
       <img
-        src={ recipe[(Object.keys(recipe)
-          .find((el) => el.includes('Thumb')))] }
+        src={ recipe[Object.keys(recipe).find((el) => el.includes('Thumb'))] }
         alt="imagem"
         data-testid="recipe-photo"
       />
-      <p data-testid="recipe-title">
-        { recipe[(Object.keys(recipe)
-          .find((el) => el.includes('str')))] }
+      <p
+        className="recipe-title"
+        data-testid="recipe-title"
+      >
+        {recipe[Object.keys(recipe).find((el) => el.includes('str'))]}
       </p>
       <p data-testid="recipe-category">
-        { recipe.strAlcoholic !== null && recipe[(Object.keys(recipe)
-          .find((el) => el.includes('Category')))]
-          + recipe.strAlcoholic}
+        Category :
+        {' '}
+        {
+          recipe.strAlcoholic !== null && recipe[Object.keys(recipe)
+            .find((el) => el.includes('Category'))] + recipe.strAlcoholic
+        }
       </p>
-      {juntaArrays().map((item, index) => (
-        <p
-          key={ item }
-          data-testid={ `${index}-ingredient-name-and-measure` }
-        >
-          {item}
-        </p>
-      ))}
+      <div className="ingredients-container">
+        {juntaArrays().map((item, index) => (
+          <p
+            key={ index }
+            className="ingredient"
+            data-testid={ `${index}-ingredient-name-and-measure` }
+          >
+            {item}
+          </p>
+        ))}
+      </div>
       <p data-testid="instructions">{recipe.strInstructions}</p>
-      {recipe.strYoutube !== null
-      && <embed data-testid="video" src={ recipe.strYoutube } />}
-      <div style={ { display: 'flex', overflowY: 'hidden', overflowX: 'scroll' } }>
+      {
+        recipe.strYoutube !== null && <embed
+          data-testid="video"
+          src={ recipe.strYoutube }
+        />
+      }
+      <div className="carousel-container">
         {carousel.slice(0, SIX).map((i, index) => (
           <div
-            key={ Number(i.idDrink || i.idMeal) }
+            key={ index }
+            className="carousel-item"
             data-testid={ `${index}-recommendation-card` }
           >
             <img
@@ -174,41 +194,47 @@ export default function RecipeDetails() {
               alt={ i.strDrink || i.strMeal }
               style={ { maxWidth: '300px' } }
             />
-            <p data-testid={ `${index}-recommendation-title` }>
-              { i.strDrink || i.strMeal }
+            <p
+              data-testid={ `${index}-recommendation-title` }
+            >
+              {i.strDrink || i.strMeal}
+
             </p>
           </div>
         ))}
       </div>
-      <button
-        type="button"
-        className="start-recipe-button"
-        data-testid="start-recipe-btn"
-        onClick={ sendToProgressPage }
+      <div
+        className="button-container"
       >
-        Continue Recipe
-      </button>
-      <button
-        data-testid="share-btn"
-        className="share-button"
-        type="button"
-        onClick={ buttonShare }
-      >
-        <img src={ shareIcon } alt="icone" />
-      </button>
-      <button
-        className="favorite-button"
-        type="button"
-        onClick={ bttFavorite }
-      >
-        <img
-          data-testid="favorite-btn"
-          src={ (favoriteRecipe
-            ? blackHeartIcon : whiteHeartIcon) }
-          alt="iconeHeart"
-        />
-      </button>
-      {messageCopy === true && <p>Link copied!</p>}
+        <button
+          type="button"
+          className="start-recipe-button"
+          data-testid="start-recipe-btn"
+          onClick={ sendToProgressPage }
+        >
+          Continue Recipe
+        </button>
+        <button
+          data-testid="share-btn"
+          className="share-button"
+          type="button"
+          onClick={ buttonShare }
+        >
+          Compartilhar
+        </button>
+        <button
+          className="favorite-button"
+          type="button"
+          onClick={ bttFavorite }
+        >
+          <img
+            data-testid="favorite-btn"
+            src={ favoriteRecipe ? blackHeartIcon : whiteHeartIcon }
+            alt="iconeHeart"
+          />
+        </button>
+      </div>
+      {messageCopy === true && <p className="message">Link copied!</p>}
     </div>
   );
 }

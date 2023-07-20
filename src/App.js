@@ -2,18 +2,18 @@ import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import './App.css';
 import { Route, useHistory, useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Login from './Components/Login';
+import Login from './Components/Login/Login';
 import LoginContext from './Components/Context/Logincontext';
 import Meals from './pages/Meals';
 import Drinks from './pages/Drinks';
-import Profile from './pages/Profile';
-import DoneRecipes from './pages/DoneRecipes';
-import FavoriteRecipes from './pages/FavoriteRecipes';
+import Profile from './pages/Profile/Profile';
+import DoneRecipes from './pages/Done Recipes/DoneRecipes';
+import FavoriteRecipes from './pages/Favorites Recipes/FavoriteRecipes';
 import { requestDrinkByFirstLetter, requestDrinkByIngredient,
   requestDrinkByName, requestMealByFirstLetter, requestMealByIngredient,
   requestMealByName } from './service/RequestAPI';
-import RecipeDetails from './Components/RecipeDetails';
-import RecipeInprogress from './Components/RecipeInprogress';
+import RecipeDetails from './Components/Recipes Details/RecipeDetails';
+import RecipeInprogress from './Components/Recipes In Progress/RecipeInprogress';
 
 function App() {
   const [email, setEmail] = useState('');
@@ -82,7 +82,7 @@ function App() {
       return result;
     }
   }, [location.pathname, searchRadio, searchInput,
-    setRequestMeal, setRequestDrink]);
+    setRequestMeal, setRequestDrink, requestMeal]);
 
   const buttonStatus = useCallback(() => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -104,6 +104,9 @@ function App() {
   const handleClickAll = useCallback(async () => {
     setButtonMeal([]);
     setButtonDrink([]);
+    setRequestDrink([]);
+    setRequestMeal([]);
+    setClear(false);
   }, [setButtonDrink, setButtonMeal]);
 
   const handleCategoryClick = useCallback(async ({ target }) => {
@@ -129,6 +132,7 @@ function App() {
     if (clear === true) {
       setButtonDrink([]);
       setButtonMeal([]);
+      setClear(false);
     } else {
       setClear(true);
     }
@@ -155,12 +159,15 @@ function App() {
       handleClickAll,
       recipe,
       setRecipe,
+      setRequestDrink,
+      setRequestMeal,
     }),
     [email, password, handleChange,
       buttonDisabled, buttonStatus, handleBtnBuscar,
       searchRadio, searchInput, setSearchInput, setSearchRadio,
       requestMeal, requestDrink, buttonDrink,
       buttonMeal, handleCategoryClick, handleClickAll, recipe, setRecipe,
+      setRequestDrink,
     ],
   );
 

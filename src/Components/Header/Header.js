@@ -1,8 +1,9 @@
 import { Link, useHistory } from 'react-router-dom';
 import { useState } from 'react';
-import profileIcon from '../images/profileIcon.svg';
-import searchIcon from '../images/searchIcon.svg';
-import SearchBar from './SearchBar';
+import profileIcon from '../../images/profileIcon.svg';
+import searchIcon from '../../images/searchIcon.svg';
+import SearchBar from '../Search Bar/SearchBar';
+import './HEADER.css';
 
 function Header() {
   const [search, setSearch] = useState(false);
@@ -28,45 +29,51 @@ function Header() {
     }
     return handlePath;
   };
+
   return (
-    <div>
-      <h1 data-testid="page-title">
+    <div className="header-container">
+      <h1
+        className="header-title"
+        data-testid="page-title"
+      >
         {
           verify()
         }
+
       </h1>
-      <Link
-        to="/profile"
-      >
+
+      <Link to="/profile">
         <img
+          className="header-profile"
           data-testid="profile-top-btn"
           src={ profileIcon }
           alt="Icone"
         />
       </Link>
+
       {
-        handlePath === 'Profile' || handlePath === done
-        || handlePath === favorite
-          ? ''
-          : (
-            <button
-              onClick={ handleChange }
-            >
-              <img
-                data-testid="search-top-btn"
-                src={ searchIcon }
-                alt="Icone"
-              />
-            </button>
-          )
+        handlePath === 'Profile' || handlePath === done || handlePath === favorite ? (
+          ''
+        ) : (
+          <button className="header-button" onClick={ handleChange }>
+            <img
+              className="header-icon"
+              data-testid="search-top-btn"
+              src={ searchIcon }
+              alt="Icone"
+            />
+          </button>
+        )
       }
       {
-        search
-        && (
-          <SearchBar />
+        search && (
+          <div className="search-bar-container">
+            <SearchBar className="header-search-bar" />
+          </div>
         )
       }
     </div>
   );
 }
+
 export default Header;

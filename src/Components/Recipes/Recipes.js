@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import MealsResults from './MealsResults';
-import DrinksResults from './DrinksResults';
-import LoginContext from './Context/Logincontext';
+import MealsResults from '../Results/MealsResults';
+import DrinksResults from '../Results/DrinksResults';
+import LoginContext from '../Context/Logincontext';
+import './RECIPES.css';
 
 function Recipes() {
   const [meals, setMeal] = useState([]);
@@ -10,7 +11,8 @@ function Recipes() {
   const [mealsResult, setMealsResult] = useState([]);
   const [drinksResult, setDrinksResult] = useState([]);
 
-  const { requestMeal, requestDrink, buttonMeal, buttonDrink } = useContext(LoginContext);
+  const { requestMeal, setRequestMeal, requestDrink, setRequestDrink,
+    buttonMeal, buttonDrink } = useContext(LoginContext);
 
   const location = useLocation();
   const num = 12;
@@ -28,6 +30,7 @@ function Recipes() {
         const filters = result.slice(0, num);
         setMeal(filters);
         setMealsResult(meals);
+        setRequestDrink([]);
       }
       if (location.pathname === '/drinks') {
         const request = await fetch(lush);
@@ -36,22 +39,25 @@ function Recipes() {
         const filter = results.slice(0, num);
         setDrinks(filter);
         setDrinksResult(drinks);
+        setRequestMeal([]);
       }
     };
+
     handleRequest();
-  }, [drinks, requestDrink, requestMeal, meals, location.pathname]);
+  }, [drinks, requestDrink, requestMeal, meals, location.pathname,
+    setRequestMeal, setRequestDrink]);
 
   return (
-    <div>
+    <div className="recipes-container">
       {
-        requestMeal.length === 0 && buttonMeal.length === 0
-          ? mealsResult.map((meal, index) => (
-            <div key={ index }>
+        requestMeal.length === 0 && buttonMeal.length === 0 ? (
+          mealsResult.map((meal, index) => (
+            <div key={ index } className="recipe-card">
               <Link to={ `/meals/${meal.idMeal}` }>
-
                 <h1 data-testid={ `${index}-recipe-card` }>{meal.strMeal}</h1>
-                <h2 data-testid={ `${index}-card-name` }>{ meal.strMeal }</h2>
+                <h2 data-testid={ `${index}-card-name` }>{meal.strMeal}</h2>
                 <img
+                  className="recipe-image"
                   src={ meal.strMealThumb }
                   alt={ meal.strMeal }
                   data-testid={ `${index}-card-img` }
@@ -59,24 +65,30 @@ function Recipes() {
               </Link>
             </div>
           ))
-          : <MealsResults />
+        ) : (
+          <MealsResults />
+        )
       }
-      {
-        requestDrink.length === 0 && buttonDrink.length === 0
-          ? drinksResult.map((drink, index) => (
-            <div key={ index } data-testid="teste">
-              <Link to={ `/drinks/${drink.idDrink}` }>
 
+      {
+        requestDrink.length === 0 && buttonDrink.length === 0 ? (
+          drinksResult.map((drink, index) => (
+            <div key={ index } className="recipe-card">
+              <Link to={ `/drinks/${drink.idDrink}` }>
                 <h1 data-testid={ `${index}-recipe-card` }>{drink.strDrink}</h1>
-                <h2 data-testid={ `${index}-card-name` }>{ drink.strDrink }</h2>
+                <h2 data-testid={ `${index}-card-name` }>{drink.strDrink}</h2>
                 <img
+                  className="recipe-image"
                   src={ drink.strDrinkThumb }
                   alt={ drink.strDrink }
                   data-testid={ `${index}-card-img` }
                 />
               </Link>
             </div>
-          )) : <DrinksResults />
+          ))
+        ) : (
+          <DrinksResults />
+        )
       }
     </div>
   );
