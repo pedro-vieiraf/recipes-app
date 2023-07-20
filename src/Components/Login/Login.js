@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import LoginContext from './Context/Logincontext';
-// import '../style/Login.css';
+import LoginContext from '../Context/Logincontext';
+import './LOGIN.css';
 
 function Login() {
   const { email, password, handleChange, buttonDisabled } = useContext(LoginContext);
@@ -15,37 +15,36 @@ function Login() {
 
   return (
     <div className="login-container">
-      <h1 className="app-title">app de receitas</h1>
-      {/* <h3 className="app-subtitle">receitas do chefe</h3> */}
-      <label htmlFor="">
+      <h1 className="login-title">Login</h1>
+      <label className="login-label" htmlFor="email">
         <input
-          className="email-input"
-          placeholder="Insira seu e-mail"
+          className="login-input"
           onChange={ handleChange }
           data-testid="email-input"
           type="email"
           name="email"
           value={ email }
         />
+      </label>
+      <label className="login-label" htmlFor="password">
         <input
-          className="input-password"
-          placeholder="Insira sua senha"
+          className="login-input"
           onChange={ handleChange }
           name="password"
           data-testid="password-input"
           type="password"
           value={ password }
         />
-        <br />
-        <button
-          className="submit-button"
-          disabled={ buttonDisabled }
-          data-testid="login-submit-btn"
-          onClick={ saveEmail }
-        >
-          Enter
-        </button>
       </label>
+      <br />
+      <button
+        className="login-button"
+        disabled={ buttonDisabled }
+        data-testid="login-submit-btn"
+        onClick={ saveEmail }
+      >
+        Enter
+      </button>
     </div>
   );
 }

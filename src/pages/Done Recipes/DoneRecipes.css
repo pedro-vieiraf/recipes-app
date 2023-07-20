@@ -1,0 +1,14 @@
+.done-recipes{
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  align-items: center;
+  margin-top: 20px;
+  height: 400px;
+}
+
+.done-recipes-title {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}

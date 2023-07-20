@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import LoginContext from './Context/Logincontext';
+import LoginContext from '../Context/Logincontext';
+import './BUTTONS.css';
 
 function CategoryButtons() {
   const { handleCategoryClick, handleClickAll } = useContext(LoginContext);
@@ -33,11 +34,11 @@ function CategoryButtons() {
   }, [location.pathname]);
 
   return (
-    <div>
-      {
-        location.pathname === '/meals'
+    <div className="category-buttons">
+      {location.pathname === '/meals'
         && categoryMeal.map((meal, index) => (
           <button
+            className="category-button"
             name={ meal.strCategory }
             key={ index }
             data-testid={ `${meal.strCategory}-category-filter` }
@@ -45,12 +46,11 @@ function CategoryButtons() {
           >
             {meal.strCategory}
           </button>
-        ))
-      }
-      {
-        location.pathname === '/drinks'
+        ))}
+      {location.pathname === '/drinks'
         && categoryDrink.map((drink, index) => (
           <button
+            className="category-button"
             name={ drink.strCategory }
             key={ index }
             data-testid={ `${drink.strCategory}-category-filter` }
@@ -58,10 +58,10 @@ function CategoryButtons() {
           >
             {drink.strCategory}
           </button>
-        ))
-      }
+        ))}
       <br />
       <button
+        className="category-button"
         data-testid="All-category-filter"
         onClick={ handleClickAll }
       >

@@ -1,0 +1,80 @@
+.meals-results-container {
+  display: contents;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+  gap: 10px;
+  padding: 10px;
+  flex-direction: column;
+}
+
+.meal-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  justify-content: flex-end;
+}
+ 
+.meal-image {
+  width: 100%; 
+  height: 120px; 
+  object-fit: cover;
+  border-radius: 8px;
+  justify-content: end;
+}
+
+.meal-card h1 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 5px 0;
+  justify-content: flex-end;
+}
+
+div.meal-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  padding: 10px;
+}
+
+.meal-card p {
+  font-size: 14px;
+  margin: 5px 0;
+  justify-content: flex-end;
+}
+
+.drinks-results-container {
+  display: contents;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+  gap: 10px;
+  padding: 10px;
+  flex-direction: column;
+}
+
+.drink-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  justify-content: flex-end;
+}
+ 
+.drink-image {
+  width: 100%; 
+  height: 120px; 
+  object-fit: cover;
+  border-radius: 8px;
+  justify-content: end;
+}
+
+.drink-card h1 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 5px 0;
+  justify-content: flex-end;
+}

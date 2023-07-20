@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
-import Header from '../Components/Header';
+import Header from '../Components/Header/Header';
 
 function FavoriteRecipes() {
   const [errorMessage, setErrorMessage] = useState('');

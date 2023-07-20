@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import Header from '../Components/Header';
+import Header from '../Components/Header/Header';
 import shareIcon from '../images/shareIcon.svg';
 
 function DoneRecipes() {
